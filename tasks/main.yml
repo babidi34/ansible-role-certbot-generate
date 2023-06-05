@@ -1,0 +1,22 @@
+---
+# tasks file for certbot-generate
+- name: Stop Nginx
+  service:
+    name: nginx
+    state: stopped
+  become: yes
+  when: nginx is defined and ('certbot' not in ansible_run_tags)
+
+- name: Run Certbot
+  command: certbot certonly --standalone --agree-tos --email {{ certbot_email }} -d {{ certbot_domain }}
+  become: yes
+  when: certbot_certs is defined and ('certbot' not in ansible_run_tags)
+  tags: certbot
+  
+
+- name: Start Nginx
+  service:
+    name: nginx
+    state: started
+  become: yes
+  when: nginx is defined and ('certbot' not in ansible_run_tags)
