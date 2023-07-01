@@ -8,7 +8,7 @@
   when: nginx is defined and ('certbot' not in ansible_run_tags)
 
 - name: Run Certbot
-  command: certbot certonly --standalone --agree-tos --email {{ certbot_email }} -d {{ certbot_domain }}
+  command: certbot certonly --standalone --agree-tos --email {{ certbot_email }} -d {{ certbot_domain }} --non-interactive --keep
   become: yes
   when: certbot_certs is defined and ('certbot' not in ansible_run_tags)
   tags: certbot
